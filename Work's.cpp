@@ -161,25 +161,22 @@ void removeAnuncio() {
 	scanf("%d", &opcao);
 	if (opcao != 0) {
 		int tmp;
-		printf("Tem certeza?");
+		printf("Tem certeza?\n");
 		printf("1 - Sim");
 		printf("2 - Não");
 		scanf("%d", &tmp);
-		if (tmp == 1){
-			for (int x = 0; x<= itensPorUsuario[x][0]; x++) {
-				if (x == opcao-1) {
-					for (int y = x+1; y< itensPorUsuario[x][0]; y++){
-						strcpy(tituloItemUsuario[usuarioLogado][x], tituloItemUsuario[usuarioLogado][y]);
-						strcpy(descricaoItemUsuario[usuarioLogado][x], descricaoItemUsuario[usuarioLogado][y]);
-						precoItemUsuario[usuarioLogado][x] = precoItemUsuario[usuarioLogado][y];
-						tipoPrecoUsuario[usuarioLogado][x] = tipoPrecoUsuario[usuarioLogado][y];
-						itensPorUsuario[usuarioLogado][0]--;
-					}
+		if (tmp == 1){	
+				for (int y = opcao-1; y<=itensPorUsuario[usuarioLogado][0]; y++){
+					strcpy(tituloItemUsuario[usuarioLogado][y], tituloItemUsuario[usuarioLogado][y+1]);
+					strcpy(descricaoItemUsuario[usuarioLogado][y], descricaoItemUsuario[usuarioLogado][y+1]);
+					precoItemUsuario[usuarioLogado][y] = precoItemUsuario[usuarioLogado][y]+1;
+					tipoPrecoUsuario[usuarioLogado][y] = tipoPrecoUsuario[usuarioLogado][y+1];
 				}
+				itensPorUsuario[usuarioLogado][0]--;
 			}
 		}
 	}
-}
+
 
 void MeusAnuncios() {
 	system("cls");

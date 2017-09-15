@@ -10,7 +10,7 @@
 	char senhaCadastro [10] [30];
 	char emailLogin	[30];
 	char senhaLogin [30];
-	int usuarioLogado = 0;
+	int usuarioLogado;
 	int usuarioOn;
 	char nickUsuario [10][30];
 	int itensPorUsuario [10][1] = {0};
@@ -90,7 +90,7 @@ void InserirAnuncio () {
 		printf("Digite o título do anúncio: ");
 		fflush(stdin);
 		gets(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]);
-		if (strlen(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) >= 2 || strlen(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) <= 150) {
+		if (strlen(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) >= 2 && strlen(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) <= 150) {
 			tmp1 = 1;
 		} else {
 			if (strlen(tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) < 2) {
@@ -104,11 +104,10 @@ void InserirAnuncio () {
 	}
 	system("cls");
 	while (tmp2 == 0){
-		printf("\n%s\n", tituloItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]);
 		printf("Digite a descrição do anúncio: ");
 		fflush(stdin);
 		gets(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]);
-		if (strlen(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) >= 2 || strlen(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) <= 150) {
+		if (strlen(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) >= 2 && strlen(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) <= 150) {
 			tmp2 = 1;
 		} else {
 			if (strlen(descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]) < 2) {
@@ -121,7 +120,6 @@ void InserirAnuncio () {
 		}
 	}
 	system("cls");
-	printf("\n%s\n", descricaoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]);
 	printf("Escolha se o valor será do serviço completo ou por hora.\n");
 	printf("1 - Serviço completo\n");
 	printf("2 - Por hora\n\n");
@@ -136,14 +134,49 @@ void InserirAnuncio () {
 	printf("\n");
 	printf("Digite o preço do serviço (xx,xx): ");
 	scanf("%f", &precoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]]);
-	if (tipoPrecoUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]] == 1) {
-		printf("%s %.2f", tipoServico1, precoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]] );
-	} else {
-		printf("%s %.2f", tipoServico2, precoItemUsuario[usuarioLogado][itensPorUsuario[usuarioLogado][0]] );
-	}
 	itensPorUsuario[usuarioLogado][0]++;
 	system("pause");
 }
+
+void visualizarSeusAnuncios() {
+	if (itensPorUsuario[usuarioLogado][0] > 0){
+			for (int x = usuarioLogado; x<=usuarioLogado; x++) {
+				for (int y = 0; y < itensPorUsuario[usuarioLogado][0]; y++) {
+					printf("%d - Título: %s\n", y+1, tituloItemUsuario[x][y] );
+					printf("    Descrição: %s\n", descricaoItemUsuario[x][y] );
+					if (tipoPrecoUsuario[x][y] == 1) {
+						printf("    %s %.2f\n", tipoServico1, precoItemUsuario[x][y] );
+					} else {
+						printf("    %s %.2f\n", tipoServico2, precoItemUsuario[x][y] );
+					}
+				}
+			} 
+		}
+}
+
+void removeAnuncio() {
+	int opcao;
+	visualizarSeusAnuncios();
+	printf("0 - voltar\n");
+	scanf("%d", &opcao);
+	if (opcao != 0) {
+		int tmp;
+		printf("Tem certeza?\n");
+		printf("1 - Sim");
+		printf("2 - Não");
+		scanf("%d", &tmp);
+		if (tmp == 1){	
+				for (int y = opcao-1; y<=itensPorUsuario[usuarioLogado][0]; y++){
+					strcpy(tituloItemUsuario[usuarioLogado][y], tituloItemUsuario[usuarioLogado][y+1]);
+					strcpy(descricaoItemUsuario[usuarioLogado][y], descricaoItemUsuario[usuarioLogado][y+1]);
+					precoItemUsuario[usuarioLogado][y] = precoItemUsuario[usuarioLogado][y]+1;
+					tipoPrecoUsuario[usuarioLogado][y] = tipoPrecoUsuario[usuarioLogado][y+1];
+				}
+				itensPorUsuario[usuarioLogado][0]--;
+			}
+		}
+	}
+
 
 void MeusAnuncios() {
 	system("cls");
@@ -151,25 +184,17 @@ void MeusAnuncios() {
 	int opcao;
 	printf("1 - Ver meus anúncios\n");
 	printf("2 - Inserir anúncio\n");
+	printf("3 - Remover anuncio\n");
 	scanf("%d", &opcao);
 	if (opcao == 1) {
-		if (itensPorUsuario[usuarioLogado][0] > 0){
-			for (int x = usuarioLogado; x<=usuarioLogado; x++) {
-				for (int y = 0; y < itensPorUsuario[usuarioLogado][0]; y++) {
-					printf("Título: %s\n", tituloItemUsuario[x][y] );
-					printf("Descrição: %s\n", descricaoItemUsuario[x][y] );
-					if (tipoPrecoUsuario[x][y] == 1) {
-						printf("%s %.2f\n", tipoServico1, precoItemUsuario[x][y] );
-					} else {
-						printf("%s %.2f\n", tipoServico2, precoItemUsuario[x][y] );
-					}
-					system("pause");
-				}
-			} 
-		}
+		visualizarSeusAnuncios();
+		system("pause");
 	}
 	if (opcao == 2) {
 		InserirAnuncio();
+	}
+	if (opcao == 3) {
+		removeAnuncio();
 	}
 }
 
@@ -180,23 +205,16 @@ void itensDisponiveis() {
 	for (int x = 0; x<= usuariosCadastrados; x++) {
 		for (int y = 0; y < itensPorUsuario[x][0]; y++) {
 			printf("%d - Título: %s\n", tmp, tituloItemUsuario[x][y] );
-			printf("	 Descrição: %s\n", descricaoItemUsuario[x][y] );
+			printf("    Descrição: %s\n", descricaoItemUsuario[x][y] );
 				if (tipoPrecoUsuario[x][y] == 1) {
-					printf("	 %s %.2f\n", tipoServico1, precoItemUsuario[x][y] );
+					printf("    %s %.2f\n", tipoServico1, precoItemUsuario[x][y] );
 				} else {
-					printf("	 %s %.2f\n", tipoServico2, precoItemUsuario[x][y] );
+					printf("    %s %.2f\n", tipoServico2, precoItemUsuario[x][y] );
 				}
 			printf("	 Criado por: %s\n", nickUsuario[x]);
 			tmp++;
 		}
 	}
-}
-
-void removeAnuncio() {
-	int opcao;
-	itensDisponiveis();
-	scanf("%d", &opcao);
-	
 }
 
 void menu () {

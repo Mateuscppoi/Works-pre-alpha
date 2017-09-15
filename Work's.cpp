@@ -13,6 +13,11 @@
 	int usuarioLogado;
 	int usuarioOn;
 	char nickUsuario [10][30];
+	char nomeUsuario [10][60];
+	char telefoneUsuario[10][9];
+	char DDDUsuario[10][2];
+	int numeroCartaoUsuario[10][3][24];
+	int codigoSegurancaCartao [10][3][4];
 	int itensPorUsuario [10][1] = {0};
 	char tituloItemUsuario [10][6][150];
 	char descricaoItemUsuario [10][6][150];
@@ -84,7 +89,7 @@ void Login () {
 }
 
 void InserirAnuncio () {
-	int tmp1 = 0,tmp2 = 0,tmp3 = 0,tipo;
+	int tmp1 = 0,tmp2 = 0,tipo;
 	system("cls");
 	while (tmp1 == 0){
 		printf("Digite o título do anúncio: ");
@@ -258,7 +263,7 @@ int main () {
 			Cadastro();			
 		}
 		if (opcaoInicial == 3) {
-			break;
+			sair = 1;
 		}
 		if (usuarioOn == 1) {
 			while (usuarioOn == 1) {

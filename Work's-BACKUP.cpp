@@ -6,18 +6,23 @@
 	char tipoServico1[25] = "Serviço completo: R$";
 	char tipoServico2[9] = "Hora: R$";
 	int usuariosCadastrados = 0;
-	char emailCadastro[10] [30];
-	char senhaCadastro [10] [30];
+	char emailAdmin[10] = "admin";
+	char senhaAdmin[10] = "works"; 
+	char usuarioAdmin = 11;
+	char emailCadastrado[10] [30];
+	char senhaCadastrado [10] [30];
+	char emailCadastro[30];
 	char emailLogin	[30];
 	char senhaLogin [30];
 	int usuarioLogado;
 	int usuarioOn;
-	char nickUsuario [10][30];
+	char nickUsuarioCadastrado [10][30];
+	char nickUsuario[30];
 	char nomeUsuario [10][60];
 	char telefoneUsuario[10][9];
 	char DDDUsuario[10][2];
-	int numeroCartaoUsuario[10][3][24];
-	int codigoSegurancaCartao [10][3][4];
+	int numeroCartaoUsuario[10][24];
+	int codigoSegurancaCartao [10][4];
 	int itensPorUsuario [10][1] = {0};
 	char tituloItemUsuario [10][6][150];
 	char descricaoItemUsuario [10][6][150];
@@ -41,15 +46,51 @@ void logo () {
 	}
 }
 
+bool validaEmail() {
+	bool valido = true;
+	for (int x = 0; x <= usuariosCadastrados; x++) {
+		if (emailCadastro == emailCadastrado[x]) {
+			valido = false;
+		}
+	}
+	return valido;
+}
+
 void Cadastro () {
+	int tmp = 0;
+	bool valido = true;
 	logo();
 	fflush(stdin);
 	printf("                               Digite seu email: ");
-	gets(emailCadastro[usuariosCadastrados]);
+	gets(emailCadastrado[usuariosCadastrados]);
+	valido = validaEmail();
+	while (valido) {
+		logo();
+		printf("                               Email já cadastrado!\n\n");
+		printf("                               Digite seu email: ");
+		gets(emailCadastrado[usuariosCadastrados]);
+		valido = validaEmail();
+	}
 	printf("                               Digite sua senha: ");
-	gets(senhaCadastro[usuariosCadastrados]);
+	gets(senhaCadastrado[usuariosCadastrados]);
 	printf("                               Digite um nome de usuario: ");
-	gets(nickUsuario[usuariosCadastrados]);
+	gets(nickUsuarioCadastrado[usuariosCadastrados]);
+	printf("                               Digite seu nome Completo:");
+	gets(nomeUsuario[usuariosCadastrados]);
+	printf("                               Digite o DDD de seu telefone:");
+	gets(DDDUsuario[usuariosCadastrados]);
+	printf("                               Digite seu telefone (xxxxxxxxx:");
+	gets(telefoneUsuario[usuariosCadastrados]);
+	system("cls");
+	logo();
+	printf("                               Deseja cadastrar um cartão?\n                               1-Sim\n                               2-Não");
+	scanf("%d", &tmp);
+	if (tmp == 1) {
+		printf("                               Número do cartão (xxxxxxxxxxxxxxxx):");
+		scanf("%d",&numeroCartaoUsuario[usuariosCadastrados]);
+		printf("                               Digite o código de 3 digitos no verso do cartão:");
+		scanf("%d",&codigoSegurancaCartao[usuariosCadastrados]);
+	}
 	usuariosCadastrados++;
 }
 
@@ -63,8 +104,14 @@ void Login () {
 		printf("                               Password: ");
 		gets(senhaLogin);
 		int validaLogin = 0;
+		if (emailLogin == emailAdmin && senhaLogin == senhaAdmin ) {
+			usuarioLogado = usuarioAdmin;
+			usuarioOn = 1;
+			validaLogin == 1;
+			tmp == 1;
+		} 
 		for (int x = 0; x<=usuariosCadastrados; x++) {
-			if (strcmp(emailLogin,emailCadastro[x]) == 0 && strcmp(senhaLogin,senhaCadastro[x]) == 0){
+			if (strcmp(emailLogin,emailCadastrado[x]) == 0 && strcmp(senhaLogin,senhaCadastrado[x]) == 0){
 				validaLogin = 1;
 				usuarioOn = 1;
 				usuarioLogado = x;
@@ -182,7 +229,6 @@ void removeAnuncio() {
 		}
 	}
 
-
 void MeusAnuncios() {
 	system("cls");
 	logo();
@@ -216,11 +262,15 @@ void itensDisponiveis() {
 				} else {
 					printf("    %s %.2f\n", tipoServico2, precoItemUsuario[x][y] );
 				}
-			printf("	 Criado por: %s\n", nickUsuario[x]);
+			printf("	 Criado por: %s\n", nickUsuarioCadastrado[x]);
 			tmp++;
 		}
 	}
 }
+
+void contrataServico() {
+	
+} 
 
 void menu () {
 	system("cls");
